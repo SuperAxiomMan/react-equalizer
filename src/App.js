@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
-import { BtnDecrease } from './Counter'
-import { BtnIncrease } from './Counter'
+import { BtnUpdate } from './Counter'
 import DisplayCounter from './DisplayCounter'
 
 class App extends Component {
@@ -13,31 +12,16 @@ class App extends Component {
     volume: 0,
   }
 
-  updateTreble = (amount) => {
+  updateState = (amount, field) => {
     console.log(amount)
     this.setState({
-      treble: this.state.treble + amount,
+      [field]: this.state[field] + amount,
     })
   }
-  updateMedium = (amount) => {
-    console.log(amount)
-    this.setState({
-      medium: this.state.medium + amount,
-    })
-  }
-  UpdateBass = (amount) => {
-    console.log(amount)
-    this.setState({
-      bass: this.state.bass + amount,
-    })
-  }
-  UpdateVolume = (amount) => {
-    console.log(amount)
-    this.setState({
-      volume: this.state.volume + amount,
-    })
-  }
+
   render() {
+    const elements = ['treble', 'medium', 'bass', 'volume']
+
     return (
       <div className="py-10">
         <header>
@@ -52,30 +36,26 @@ class App extends Component {
             <div className="px-4 py-8 sm:px-0">
               <div className="border-4 border-dashed border-gray-200 rounded-lg h-96">
                 <div className="text-center">
-                  <h1>TREBLE</h1>
-                  <div className="flex">
-                    <BtnDecrease update={this.updateTreble} />
-                    <DisplayCounter count={this.state.treble} />
-                    <BtnIncrease update={this.updateTreble} />
-                  </div>
-                  <h1>MEDIUM</h1>
-                  <div className="flex">
-                    <BtnDecrease update={this.updateMedium} />
-                    <DisplayCounter count={this.state.medium} />
-                    <BtnIncrease update={this.updateMedium} />
-                  </div>
-                  <h1>BASS</h1>
-                  <div className="flex">
-                    <BtnDecrease update={this.UpdateBass} />
-                    <DisplayCounter count={this.state.bass} />
-                    <BtnIncrease update={this.UpdateBass} />
-                  </div>
-                  <h1>Volume</h1>
-                  <div className="flex">
-                    <BtnDecrease update={this.UpdateVolume} />
-                    <DisplayCounter count={this.state.volume} />
-                    <BtnIncrease update={this.UpdateVolume} />
-                  </div>
+                  {elements.map((el) => {
+                    return (
+                      <div key={el}>
+                        <h1>{el}</h1>
+                        <div className="flex">
+                          <BtnUpdate
+                            amount={-1}
+                            field={el}
+                            update={this.updateState}
+                          />
+                          <DisplayCounter count={this.state[el]} />
+                          <BtnUpdate
+                            amount={1}
+                            field={el}
+                            update={this.updateState}
+                          />
+                        </div>
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
             </div>
