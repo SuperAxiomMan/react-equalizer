@@ -20,8 +20,6 @@ class App extends Component {
   }
 
   render() {
-    const elements = ['treble', 'medium', 'bass', 'volume']
-
     return (
       <div className="py-10">
         <header>
@@ -36,7 +34,7 @@ class App extends Component {
             <div className="px-4 py-8 sm:px-0">
               <div className="border-4 border-dashed border-gray-200 rounded-lg h-96">
                 <div className="text-center">
-                  {elements.map((el) => {
+                  {Object.keys(this.state).map((el) => {
                     return (
                       <div key={el}>
                         <h1>{el}</h1>
